@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import '../../di/module.dart';
 import '../viewmodel/MovieViewModel.dart';
 
 void main() {
+  setupLocator();
   runApp(const MyApp());
 }
 
@@ -12,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MovieViewModel>(
-      create: (_) => MovieViewModel(),
+      create: (_) => GetIt.instance<MovieViewModel>(),
       child: const MaterialApp(
         home: MovieScreen(),
       ),
@@ -50,9 +53,9 @@ class MovieScreen extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () { _handleSearch(movieViewModel);},
-                  child: Text("load")),
+                  child: const Text("load")),
               for (var movie
-                  in movieViewModel.movies!.boxOfficeResult.dailyBoxOfficeList)
+                  in movieViewModel.movies?.boxOfficeResult.dailyBoxOfficeList ?? const Iterable.empty())
                 Text(movie.movieNm)
             ],
           );

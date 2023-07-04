@@ -5,7 +5,7 @@ import '../model/BoxOfficeResponse.dart';
 class MovieService {
   static const String baseUrl = "https://kobis.or.kr";
 
-  static Future<BoxOfficeResponse> getDailyBoxOfficeList(String targetDt, String itemPerPage) async {
+  Future<BoxOfficeResponse> getDailyBoxOfficeList(String targetDt, String itemPerPage) async {
     const apiKey = "df5a8f9d935c2beadde64a98bea56b11";
     print('$baseUrl/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=$apiKey&targetDt=$targetDt&itemPerPage=$itemPerPage');
     final url = Uri.parse('$baseUrl/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=$apiKey&targetDt=$targetDt&itemPerPage=$itemPerPage');
