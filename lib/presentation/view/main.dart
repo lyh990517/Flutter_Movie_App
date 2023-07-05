@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../di/module.dart';
 import '../viewmodel/MovieViewModel.dart';
 
@@ -74,13 +75,14 @@ class MovieScreen extends StatelessWidget {
                   flex: 1,
                   child: ListView.builder(
                     itemCount: movieViewModel
-                        .movies.boxOfficeResult.dailyBoxOfficeList.length,
+                        .movies?.boxOfficeResult.dailyBoxOfficeList.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: MovieItem(
-                            movie: movieViewModel.movies.boxOfficeResult
-                                .dailyBoxOfficeList[index]),
+                          movie: movieViewModel
+                              .movies?.boxOfficeResult.dailyBoxOfficeList[index],
+                        ),
                       );
                     },
                   ))
@@ -98,7 +100,7 @@ class MovieItem extends StatelessWidget {
     required this.movie,
   }) : super(key: key);
 
-  final BoxOffice movie;
+  final BoxOffice? movie;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +124,7 @@ class MovieItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie.movieNm,
+                    movie!.movieNm,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -132,9 +134,9 @@ class MovieItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("${movie.rank} 위"),
+                      Text("${movie!.rank} 위"),
                       const SizedBox(width: 10),
-                      Text("개봉 일자: ${movie.openDt}")
+                      Text("개봉 일자: ${movie!.openDt}")
                     ],
                   )
                 ],
@@ -150,14 +152,18 @@ class MovieItem extends StatelessWidget {
 class MovieDetailScreen extends StatelessWidget {
   const MovieDetailScreen({super.key, required this.movie});
 
-  final BoxOffice movie;
+  final BoxOffice? movie;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [Text(movie.movieNm)],
-      ),
+      body: Column(children: [
+        Expanded(
+          child: WebView(
+              initialUrl:
+                  "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=${movie!.movieNm}"),
+        ),
+      ]),
       appBar: AppBar(
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),
