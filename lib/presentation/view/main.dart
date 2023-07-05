@@ -182,6 +182,7 @@ class MovieDetailScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             }),
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
       ),
     );
   }
