@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../di/module.dart';
@@ -41,6 +42,16 @@ class MovieScreen extends StatelessWidget {
       viewModel.fetchPosts(searchText, "20");
     }
 
+    String formatDate() {
+      if (textEditingController.text.isNotEmpty) {
+        DateTime date = DateTime.parse(textEditingController.text);
+        final formatter = DateFormat('yyyy년 MM월 dd일');
+        return formatter.format(date);
+      } else {
+        return "";
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movies'),
@@ -69,7 +80,7 @@ class MovieScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text("검색 일자: ${textEditingController.text}"),
+                child: Text("검색 일자: ${formatDate()}"),
               ),
               Flexible(
                   flex: 1,
@@ -80,8 +91,8 @@ class MovieScreen extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: MovieItem(
-                          movie: movieViewModel
-                              .movies?.boxOfficeResult.dailyBoxOfficeList[index],
+                          movie: movieViewModel.movies?.boxOfficeResult
+                              .dailyBoxOfficeList[index],
                         ),
                       );
                     },
@@ -165,6 +176,7 @@ class MovieDetailScreen extends StatelessWidget {
         ),
       ]),
       appBar: AppBar(
+        title: Text(movie!.movieNm),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
