@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import '../../di/module.dart';
@@ -14,10 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MovieViewModel>(
-      create: (_) => GetIt.instance<MovieViewModel>(),
-      child: const MaterialApp(
-        home: MovieScreen(),
+    return ChangeNotifierProvider.value(value: GetIt.instance<MovieViewModel>(),
+      child: MaterialApp(
+        home: const MovieScreen(),
+        theme: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent)),
       ),
     );
   }
@@ -28,11 +30,8 @@ class MovieScreen extends StatelessWidget {
     super.key,
   });
 
-
-
   @override
   Widget build(BuildContext context) {
-
     TextEditingController textEditingController = TextEditingController();
 
     void _handleSearch(MovieViewModel viewModel) {
@@ -47,19 +46,93 @@ class MovieScreen extends StatelessWidget {
       body: Consumer<MovieViewModel>(
         builder: (context, movieViewModel, _) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: textEditingController,
+              Row(
+                children: [
+                  Flexible(
+                      child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: TextField(
+                      decoration: const InputDecoration(hintText: "20230101"),
+                      controller: textEditingController,
+                    ),
+                  )),
+                  ElevatedButton(
+                      onPressed: () {
+                        _handleSearch(movieViewModel);
+                      },
+                      child: const Text("load"))
+                ],
               ),
-              ElevatedButton(
-                  onPressed: () { _handleSearch(movieViewModel);},
-                  child: const Text("load")),
-              for (var movie
-                  in movieViewModel.movies?.boxOfficeResult.dailyBoxOfficeList ?? const Iterable.empty())
-                Text(movie.movieNm)
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text("검색 일자: ${textEditingController.text}"),
+              ),
+              Flexible(
+                  flex: 1,
+                  child: ListView.builder(
+                    itemCount: movieViewModel
+                        .movies.boxOfficeResult.dailyBoxOfficeList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MovieItem(
+                            movie: movieViewModel.movies.boxOfficeResult
+                                .dailyBoxOfficeList[index]),
+                      );
+                    },
+                  ))
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class MovieItem extends StatelessWidget {
+  const MovieItem({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
+
+  final BoxOffice movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.greenAccent,
+      child: Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.movie),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  movie.movieNm,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("${movie.rank} 위"),
+                    const SizedBox(width: 10),
+                    Text("개봉 일자: ${movie.openDt}")
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

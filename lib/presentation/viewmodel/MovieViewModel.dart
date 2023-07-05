@@ -4,9 +4,9 @@ import '../../data/model/BoxOfficeResponse.dart';
 import '../../data/network/MovieService.dart';
 
 class MovieViewModel extends ChangeNotifier {
-  BoxOfficeResponse? _movies;
+  late BoxOfficeResponse _movies;
 
-  BoxOfficeResponse? get movies => _movies;
+  BoxOfficeResponse get movies => _movies;
 
   MovieService myService = GetIt.instance<MovieService>();
 
