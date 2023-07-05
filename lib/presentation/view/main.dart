@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(value: GetIt.instance<MovieViewModel>(),
+    return ChangeNotifierProvider.value(
+      value: GetIt.instance<MovieViewModel>(),
       child: MaterialApp(
         home: const MovieScreen(),
         theme: Theme.of(context).copyWith(
@@ -101,38 +102,68 @@ class MovieItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.greenAccent,
-      child: Row(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.movie),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  movie.movieNm,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("${movie.rank} 위"),
-                    const SizedBox(width: 10),
-                    Text("개봉 일자: ${movie.openDt}")
-                  ],
-                )
-              ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MovieDetailScreen(movie: movie)));
+      },
+      child: Container(
+        color: Colors.greenAccent,
+        child: Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.movie),
             ),
-          )
-        ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    movie.movieNm,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("${movie.rank} 위"),
+                      const SizedBox(width: 10),
+                      Text("개봉 일자: ${movie.openDt}")
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MovieDetailScreen extends StatelessWidget {
+  const MovieDetailScreen({super.key, required this.movie});
+
+  final BoxOffice movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [Text(movie.movieNm)],
+      ),
+      appBar: AppBar(
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
       ),
     );
   }
