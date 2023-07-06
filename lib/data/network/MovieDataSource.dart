@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../model/BoxOfficeResponse.dart';
 
-class MovieService {
+class MovieDataSource {
   static const String baseUrl = "https://kobis.or.kr";
 
   Future<BoxOfficeResponse> getDailyBoxOfficeList(String targetDt, String itemPerPage) async {
