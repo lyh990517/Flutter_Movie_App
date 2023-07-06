@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../data/model/BoxOffice.dart';
-import 'MovieDetailWidget.dart';
+import '../../../data/model/BoxOffice.dart';
+import '../Screen/MovieDetailWidget.dart';
 
 class MovieItem extends StatelessWidget {
   const MovieItem({

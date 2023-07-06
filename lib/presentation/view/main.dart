@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../di/module.dart';
 import '../viewmodel/MovieViewModel.dart';
-import 'MovieScreenWidget.dart';
+import 'Screen/MovieScreenWidget.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 void main() async {

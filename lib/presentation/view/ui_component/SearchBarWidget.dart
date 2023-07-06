@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../viewmodel/MovieViewModel.dart';
+import '../../viewmodel/MovieViewModel.dart';
 
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({
