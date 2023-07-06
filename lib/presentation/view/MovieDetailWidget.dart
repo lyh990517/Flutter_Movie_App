@@ -3,9 +3,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../data/model/BoxOffice.dart';
 
 class MovieDetailScreen extends StatelessWidget {
-  const MovieDetailScreen({super.key, required this.movie});
+  const MovieDetailScreen({super.key, required this.movie, required this.onSave});
 
   final BoxOffice? movie;
+  final void Function(BoxOffice movie) onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MovieDetailScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             }),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+        actions: [IconButton(onPressed: () { onSave(movie!);}, icon: const Icon(Icons.add))],
       ),
     );
   }

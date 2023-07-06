@@ -7,9 +7,11 @@ class MovieItem extends StatelessWidget {
   const MovieItem({
     Key? key,
     required this.movie,
+    required this.onSave,
   }) : super(key: key);
 
   final BoxOffice? movie;
+  final void Function(BoxOffice movie) onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,10 @@ class MovieItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MovieDetailScreen(movie: movie)));
+                builder: (context) => MovieDetailScreen(
+                      movie: movie,
+                      onSave: onSave,
+                    )));
       },
       child: Container(
         color: Colors.greenAccent,

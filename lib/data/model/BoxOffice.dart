@@ -1,21 +1,42 @@
-class BoxOffice {
+import 'package:hive/hive.dart';
+
+@HiveType(typeId: 1)
+class BoxOffice extends HiveObject {
+  @HiveField(0)
   final String rnum;
+  @HiveField(1)
   final String rank;
+  @HiveField(2)
   final String rankInten;
+  @HiveField(3)
   final String rankOldAndNew;
+  @HiveField(4)
   final String movieCd;
+  @HiveField(5)
   final String movieNm;
+  @HiveField(6)
   final String openDt;
+  @HiveField(7)
   final String salesAmt;
+  @HiveField(8)
   final String salesShare;
+  @HiveField(9)
   final String salesInten;
+  @HiveField(10)
   final String salesChange;
+  @HiveField(11)
   final String salesAcc;
+  @HiveField(12)
   final String audiCnt;
+  @HiveField(13)
   final String audiInten;
+  @HiveField(14)
   final String audiChange;
+  @HiveField(15)
   final String audiAcc;
+  @HiveField(16)
   final String scrnCnt;
+  @HiveField(17)
   final String showCnt;
 
   BoxOffice({

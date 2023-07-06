@@ -63,6 +63,10 @@ class MovieScreen extends StatelessWidget {
                         child: MovieItem(
                           movie: movieViewModel.movies?.boxOfficeResult
                               .dailyBoxOfficeList[index],
+                          onSave: (movie) {
+                            movieViewModel.saveMovie(movie);
+                            movieViewModel.loadMovies();
+                          },
                         ),
                       );
                     },
@@ -89,8 +93,10 @@ class DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MyMovieScreenWidget()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const MyMovieScreenWidget()));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

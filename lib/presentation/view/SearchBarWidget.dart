@@ -14,7 +14,7 @@ class SearchBarWidget extends StatelessWidget {
 
   void _handleSearch(MovieViewModel viewModel) {
     final searchText = textEditingController.text;
-    viewModel.fetchPosts(searchText, "20");
+    viewModel.getMovieList(searchText, "20");
   }
 
   @override
