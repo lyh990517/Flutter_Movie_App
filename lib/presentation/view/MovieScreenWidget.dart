@@ -29,6 +29,18 @@ class MovieScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Movies'),
       ),
+      drawer: Drawer(
+        child: Expanded(
+          child: ListView(
+            children: const [
+              DrawerItem(
+                title: "My Movies",
+                icon: Icons.favorite,
+              )
+            ],
+          ),
+        ),
+      ),
       body: Consumer<MovieViewModel>(
         builder: (context, movieViewModel, _) {
           return Column(
@@ -59,6 +71,62 @@ class MovieScreen extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  const DrawerItem({
+    super.key,
+    required this.title,
+    required this.icon,
+  });
+
+  final String title;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MyMovieScreenWidget()));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            const SizedBox(width: 10),
+            Icon(icon),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(title)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MyMovieScreenWidget extends StatelessWidget {
+  const MyMovieScreenWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: const Text("My Movies"),
+      ),
+      body: const Column(
+        children: [Text("data")],
       ),
     );
   }
