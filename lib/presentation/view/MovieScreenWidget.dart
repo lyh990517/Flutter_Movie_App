@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../viewmodel/MovieViewModel.dart';
 import 'MovieItem.dart';
+import 'MyMovieScreenWidget.dart';
 import 'SearchBarWidget.dart';
 
 class MovieScreen extends StatelessWidget {
@@ -30,15 +31,13 @@ class MovieScreen extends StatelessWidget {
         title: const Text('Movies'),
       ),
       drawer: Drawer(
-        child: Expanded(
-          child: ListView(
-            children: const [
-              DrawerItem(
-                title: "My Movies",
-                icon: Icons.favorite,
-              )
-            ],
-          ),
+        child: ListView(
+          children: const [
+            DrawerItem(
+              title: "My Movies",
+              icon: Icons.favorite,
+            )
+          ],
         ),
       ),
       body: Consumer<MovieViewModel>(
@@ -91,7 +90,7 @@ class DrawerItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MyMovieScreenWidget()));
+            MaterialPageRoute(builder: (context) => const MyMovieScreenWidget()));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -105,28 +104,6 @@ class DrawerItem extends StatelessWidget {
             Text(title)
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MyMovieScreenWidget extends StatelessWidget {
-  const MyMovieScreenWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text("My Movies"),
-      ),
-      body: const Column(
-        children: [Text("data")],
       ),
     );
   }

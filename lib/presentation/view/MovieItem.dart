@@ -33,7 +33,7 @@ class MovieItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie!.movieNm,
+                    movie?.movieNm ?? "",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -43,9 +43,9 @@ class MovieItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("${movie!.rank} 위"),
+                      Text("${movie?.rank}위"),
                       const SizedBox(width: 10),
-                      Text("개봉 일자: ${movie!.openDt}")
+                      Text("개봉 일자: ${movie?.openDt}")
                     ],
                   )
                 ],
