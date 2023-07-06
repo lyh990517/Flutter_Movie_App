@@ -30,15 +30,20 @@ class MovieScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Movies'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: const [
-            DrawerItem(
-              title: "My Movies",
-              icon: Icons.favorite,
-            )
-          ],
-        ),
+      drawer: Consumer<MovieViewModel>(
+        builder: (context, movieViewModel, _) {
+          return Drawer(
+            child: ListView(
+              children: [
+                DrawerItem(
+                  title: "My Movies",
+                  icon: Icons.favorite,
+                  viewModel: movieViewModel,
+                ),
+              ],
+            ),
+          );
+        },
       ),
       body: Consumer<MovieViewModel>(
         builder: (context, movieViewModel, _) {
@@ -46,31 +51,31 @@ class MovieScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SearchBarWidget(
-                  textEditingController: textEditingController,
-                  viewModel: movieViewModel),
+                textEditingController: textEditingController,
+                viewModel: movieViewModel,
+              ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text("검색 일자: ${formatDate()}"),
               ),
               Flexible(
-                  flex: 1,
-                  child: ListView.builder(
-                    itemCount: movieViewModel
-                        .movies?.boxOfficeResult.dailyBoxOfficeList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: MovieItem(
-                          movie: movieViewModel.movies?.boxOfficeResult
-                              .dailyBoxOfficeList[index],
-                          onSave: (movie) {
-                            movieViewModel.saveMovie(movie);
-                            movieViewModel.loadMovies();
-                          },
-                        ),
-                      );
-                    },
-                  ))
+                flex: 1,
+                child: ListView.builder(
+                  itemCount: movieViewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MovieItem(
+                        movie: movieViewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index],
+                        onSave: (movie) {
+                          movieViewModel.saveMovie(movie);
+                          movieViewModel.loadMovies();
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           );
         },
@@ -84,10 +89,12 @@ class DrawerItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
+    required this.viewModel,
   });
 
   final String title;
   final IconData icon;
+  final MovieViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +103,7 @@ class DrawerItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const MyMovieScreenWidget()));
+                builder: (context) => MyMovieScreenWidget(viewModel: viewModel)));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

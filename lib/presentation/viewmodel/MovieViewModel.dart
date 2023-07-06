@@ -13,6 +13,10 @@ class MovieViewModel extends ChangeNotifier {
   GetMovieListUseCase getMovieListUseCase =
       GetIt.instance<GetMovieListUseCase>();
 
+  late List<BoxOffice> _myMovie;
+
+  List<BoxOffice> get myMovie => _myMovie;
+
   Future<void> getMovieList(String targetDt, String itemPerPage) async {
     try {
       BoxOfficeResponse fetchedPosts =
@@ -36,7 +40,7 @@ class MovieViewModel extends ChangeNotifier {
 
     if (!isDuplicate) {
       box.add(movie);
-    }else{
+    } else {
       print('이미 저장된 영화입니다.');
     }
   }
@@ -47,6 +51,8 @@ class MovieViewModel extends ChangeNotifier {
         : await Hive.openBox<BoxOffice>('MyMovies');
 
     final movies = box.values.toList();
+    _myMovie = movies;
+    notifyListeners();
     for (var movie in movies) {
       print(movie.movieNm);
     }
