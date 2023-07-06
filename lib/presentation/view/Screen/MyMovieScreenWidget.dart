@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:flutter_mvvm/presentation/viewmodel/MovieViewModel.dart';
+import 'package:provider/provider.dart';
 
 class MyMovieScreenWidget extends StatefulWidget {
   const MyMovieScreenWidget({super.key, required this.viewModel});
@@ -30,14 +31,46 @@ class _MyMovieScreenWidgetState extends State<MyMovieScreenWidget> {
         ),
         title: const Text("My Movies"),
       ),
-      body: ListView.builder(
-        itemCount: widget.viewModel.myMovie.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(widget.viewModel.myMovie[index].movieNm),
+      body: Consumer<MovieViewModel>(
+        builder: (context, movieViewModel, _) {
+          final myMovies = movieViewModel.myMovie;
+
+          return ListView.builder(
+            itemCount: myMovies.length,
+            itemBuilder: (context, index) {
+              return MyMovieItem(
+                movie: myMovies[index],
+                onDelete: () {
+                  movieViewModel.deleteMovie(index);
+                },
+              );
+            },
           );
         },
+      ),
+    );
+  }
+}
+
+class MyMovieItem extends StatelessWidget {
+  const MyMovieItem({
+    super.key,
+    required this.movie,
+    required this.onDelete,
+  });
+
+  final BoxOffice movie;
+  final void Function() onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          IconButton(onPressed: onDelete, icon: const Icon(Icons.delete)),
+          Text(movie.movieNm),
+        ],
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
 import 'package:get_it/get_it.dart';
@@ -58,5 +60,15 @@ class MovieViewModel extends ChangeNotifier {
     }
 
     return movies;
+  }
+
+  void deleteMovie(int index) async {
+    final box = Hive.isBoxOpen('MyMovies')
+        ? Hive.box<BoxOffice>('MyMovies')
+        : await Hive.openBox<BoxOffice>('MyMovies');
+    BoxOffice movie = _myMovie[index];
+    box.delete(movie.key);
+
+    await loadMovies();
   }
 }
