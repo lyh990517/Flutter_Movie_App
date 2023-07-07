@@ -1,7 +1,8 @@
-import 'package:flutter_mvvm/data/database/MovieDatabase.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:flutter_mvvm/domain/repository/DatabaseRepository.dart';
 import 'package:get_it/get_it.dart';
+
+import '../datasource/local/MovieDatabase.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final MovieDatabase _database = GetIt.instance<MovieDatabase>();

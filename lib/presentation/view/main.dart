@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm/data/database/BoxOfficeAdapter.dart';
-import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-
+import '../../data/datasource/local/BoxOfficeAdapter.dart';
 import '../../di/module.dart';
 import '../viewmodel/MovieViewModel.dart';
 import 'Screen/MovieScreenWidget.dart';

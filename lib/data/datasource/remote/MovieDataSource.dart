@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../model/BoxOfficeResponse.dart';
+import '../../model/BoxOfficeResponse.dart';
 
 class MovieDataSource {
   static const String baseUrl = "https://kobis.or.kr";

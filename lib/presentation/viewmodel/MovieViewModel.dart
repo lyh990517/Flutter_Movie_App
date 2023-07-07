@@ -3,7 +3,6 @@ import 'package:flutter_mvvm/domain/usecase/DeleteOneMovieUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListFromDatabaseUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import '../../data/model/BoxOffice.dart';
 import '../../data/model/BoxOfficeResponse.dart';
 import '../../domain/usecase/SaveOneMovieUseCase.dart';

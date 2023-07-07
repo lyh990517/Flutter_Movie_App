@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../model/BoxOffice.dart';
+import '../../model/BoxOffice.dart';
 
 class MovieDatabase {
   late Box<BoxOffice> _database;
