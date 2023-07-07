@@ -5,13 +5,13 @@ import '../model/BoxOfficeResponse.dart';
 import '../network/MovieDataSource.dart';
 
 class MovieRepositoryImpl implements MovieRepository{
-  MovieDataSource myService = GetIt.instance<MovieDataSource>();
+  final MovieDataSource _myService = GetIt.instance<MovieDataSource>();
 
   @override
   Future<BoxOfficeResponse> getDailyBoxOfficeList(
       String targetDt, String itemPerPage) async {
     BoxOfficeResponse? result =
-        await myService.getDailyBoxOfficeList(targetDt, itemPerPage);
+        await _myService.getDailyBoxOfficeList(targetDt, itemPerPage);
     return result;
   }
 }

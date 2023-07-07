@@ -1,19 +1,23 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_mvvm/domain/usecase/DeleteOneMovieUseCase.dart';
+import 'package:flutter_mvvm/domain/usecase/GetMovieListFromDatabaseUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import '../../data/model/BoxOffice.dart';
 import '../../data/model/BoxOfficeResponse.dart';
+import '../../domain/usecase/SaveOneMovieUseCase.dart';
+
 
 class MovieViewModel extends ChangeNotifier {
   BoxOfficeResponse? _movies;
 
   BoxOfficeResponse? get movies => _movies;
 
-  GetMovieListUseCase getMovieListUseCase =
-      GetIt.instance<GetMovieListUseCase>();
+  final GetMovieListUseCase _getMovieListUseCase = GetIt.instance<GetMovieListUseCase>();
+  final SaveOneMovieUseCase _saveOneMovieUseCase = GetIt.instance<SaveOneMovieUseCase>();
+  final DeleteOneMovieUseCase _deleteOneMovieUseCase = GetIt.instance<DeleteOneMovieUseCase>();
+  final GetMovieListFromDatabaseUseCase _getMovieListFromDatabaseUseCase = GetIt.instance<GetMovieListFromDatabaseUseCase>();
 
   late List<BoxOffice> _myMovie;
 
@@ -22,7 +26,7 @@ class MovieViewModel extends ChangeNotifier {
   Future<void> getMovieList(String targetDt, String itemPerPage) async {
     try {
       BoxOfficeResponse fetchedPosts =
-          await getMovieListUseCase.get(targetDt, itemPerPage);
+          await _getMovieListUseCase.invoke(targetDt, itemPerPage);
       _movies = fetchedPosts;
       notifyListeners();
     } catch (e) {
@@ -32,43 +36,18 @@ class MovieViewModel extends ChangeNotifier {
 
   void saveMovie(BoxOffice? movie) async {
     if (movie == null) return;
-
-    final box = Hive.isBoxOpen('MyMovies')
-        ? Hive.box<BoxOffice>('MyMovies')
-        : await Hive.openBox<BoxOffice>('MyMovies');
-
-    final movies = box.values.toList();
-    final isDuplicate = movies.any((m) => m.movieCd == movie.movieCd);
-
-    if (!isDuplicate) {
-      box.add(movie);
-    } else {
-      print('이미 저장된 영화입니다.');
-    }
+    _saveOneMovieUseCase.invoke(movie);
   }
 
   Future<List<BoxOffice>> loadMovies() async {
-    final box = Hive.isBoxOpen('MyMovies')
-        ? Hive.box<BoxOffice>('MyMovies')
-        : await Hive.openBox<BoxOffice>('MyMovies');
-
-    final movies = box.values.toList();
+    var movies = await _getMovieListFromDatabaseUseCase.invoke();
     _myMovie = movies;
     notifyListeners();
-    for (var movie in movies) {
-      print(movie.movieNm);
-    }
-
     return movies;
   }
 
   void deleteMovie(int index) async {
-    final box = Hive.isBoxOpen('MyMovies')
-        ? Hive.box<BoxOffice>('MyMovies')
-        : await Hive.openBox<BoxOffice>('MyMovies');
-    BoxOffice movie = _myMovie[index];
-    box.delete(movie.key);
-
+    _deleteOneMovieUseCase.invoke(myMovie[index]);
     await loadMovies();
   }
 }

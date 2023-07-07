@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import '../../data/model/BoxOfficeResponse.dart';
 
 class GetMovieListUseCase {
-  MovieRepository repository = GetIt.instance<MovieRepository>();
+  final MovieRepository _repository = GetIt.instance<MovieRepository>();
 
-  Future<BoxOfficeResponse> get(String targetDt, String itemPerPage) {
-    return repository.getDailyBoxOfficeList(targetDt, itemPerPage);
+  Future<BoxOfficeResponse> invoke(String targetDt, String itemPerPage) {
+    return _repository.getDailyBoxOfficeList(targetDt, itemPerPage);
   }
 }
