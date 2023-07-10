@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_riverpod: ^2.3.6
   path_provider: ^2.0.5
   intl: ^0.17.0
   http: ^0.13.3

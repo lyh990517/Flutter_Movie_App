@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/presentation/view/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -7,13 +9,13 @@ import '../ui_component/MovieItem.dart';
 import '../ui_component/SearchBarWidget.dart';
 import 'MyMovieScreenWidget.dart';
 
-class MovieScreen extends StatelessWidget {
+class MovieScreen extends ConsumerWidget {
   const MovieScreen({
     super.key,
   });
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(movieViewModelProvider);
     TextEditingController textEditingController = TextEditingController();
 
     String formatDate() {
@@ -30,55 +32,47 @@ class MovieScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Movies'),
       ),
-      drawer: Consumer<MovieViewModel>(
-        builder: (context, movieViewModel, _) {
-          return Drawer(
-            child: ListView(
-              children: [
-                DrawerItem(
-                  title: "My Movies",
-                  icon: Icons.favorite,
-                  viewModel: movieViewModel,
-                ),
-              ],
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerItem(
+              title: "My Movies",
+              icon: Icons.favorite,
+              viewModel: viewModel,
             ),
-          );
-        },
+          ],
+        ),
       ),
-      body: Consumer<MovieViewModel>(
-        builder: (context, movieViewModel, _) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SearchBarWidget(
-                textEditingController: textEditingController,
-                viewModel: movieViewModel,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text("검색 일자: ${formatDate()}"),
-              ),
-              Flexible(
-                flex: 1,
-                child: ListView.builder(
-                  itemCount: movieViewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MovieItem(
-                        movie: movieViewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index],
-                        onSave: (movie) {
-                          movieViewModel.saveMovie(movie);
-                          movieViewModel.loadMovies();
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
-        },
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SearchBarWidget(
+            textEditingController: textEditingController,
+            viewModel: viewModel,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text("검색 일자: ${formatDate()}"),
+          ),
+          Flexible(
+            flex: 1,
+            child: ListView.builder(
+              itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: MovieItem(
+                    movie: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index],
+                    onSave: (movie) {
+                      viewModel.saveMovie(movie);
+                      viewModel.loadMovies();
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -103,7 +97,7 @@ class DrawerItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MyMovieScreenWidget(viewModel: viewModel)));
+                builder: (context) => MyMovieScreenWidget()));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),

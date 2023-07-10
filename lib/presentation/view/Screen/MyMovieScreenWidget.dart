@@ -1,26 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
-import 'package:flutter_mvvm/presentation/viewmodel/MovieViewModel.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_mvvm/presentation/view/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyMovieScreenWidget extends StatefulWidget {
-  const MyMovieScreenWidget({super.key, required this.viewModel});
-
-  final MovieViewModel viewModel;
+class MyMovieScreenWidget extends ConsumerWidget {
+  const MyMovieScreenWidget({Key? key}) : super(key: key);
 
   @override
-  State<MyMovieScreenWidget> createState() => _MyMovieScreenWidgetState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(movieViewModelProvider);
 
-class _MyMovieScreenWidgetState extends State<MyMovieScreenWidget> {
-  @override
-  void initState() {
-    super.initState();
-    widget.viewModel.loadMovies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -31,19 +20,13 @@ class _MyMovieScreenWidgetState extends State<MyMovieScreenWidget> {
         ),
         title: const Text("My Movies"),
       ),
-      body: Consumer<MovieViewModel>(
-        builder: (context, movieViewModel, _) {
-          final myMovies = movieViewModel.myMovie;
-
-          return ListView.builder(
-            itemCount: myMovies.length,
-            itemBuilder: (context, index) {
-              return MyMovieItem(
-                movie: myMovies[index],
-                onDelete: () {
-                  movieViewModel.deleteMovie(index);
-                },
-              );
+      body: ListView.builder(
+        itemCount: viewModel.myMovie.length,
+        itemBuilder: (context, index) {
+          return MyMovieItem(
+            movie: viewModel.myMovie[index],
+            onDelete: () {
+              viewModel.deleteMovie(index);
             },
           );
         },
