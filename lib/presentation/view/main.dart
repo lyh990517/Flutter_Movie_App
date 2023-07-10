@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../data/datasource/local/BoxOfficeAdapter.dart';
-import '../../di/module.dart';
-import '../viewmodel/MovieViewModel.dart';
-import 'Screen/MovieScreenWidget.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-final movieViewModelProvider = ChangeNotifierProvider((ref) => MovieViewModel());
+import '../../data/datasource/local/BoxOfficeAdapter.dart';
+import 'Screen/MovieScreenWidget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +12,6 @@ void main() async {
   final appDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
   Hive.registerAdapter(MovieAdapter());
-  setupLocator();
   runApp(const ProviderScope(child: MyApp()));
   await Hive.close();
 }

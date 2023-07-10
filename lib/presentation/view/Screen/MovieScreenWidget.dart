@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm/presentation/view/main.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../di/module.dart';
 import '../../viewmodel/MovieViewModel.dart';
 import '../ui_component/MovieItem.dart';
 import '../ui_component/SearchBarWidget.dart';

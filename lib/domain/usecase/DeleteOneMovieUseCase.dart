@@ -1,10 +1,10 @@
-import 'package:get_it/get_it.dart';
-
 import '../../data/model/BoxOffice.dart';
 import '../repository/DatabaseRepository.dart';
 
 class DeleteOneMovieUseCase {
-  final DatabaseRepository _repository = GetIt.instance<DatabaseRepository>();
+  final DatabaseRepository _repository;
+
+  DeleteOneMovieUseCase(this._repository);
 
   void invoke(BoxOffice movie) {
     _repository.deleteMovie(movie);

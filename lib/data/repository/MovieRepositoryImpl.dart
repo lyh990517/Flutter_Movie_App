@@ -1,11 +1,12 @@
 import 'package:flutter_mvvm/domain/repository/MovieRepository.dart';
-import 'package:get_it/get_it.dart';
 
-import '../model/BoxOfficeResponse.dart';
 import '../datasource/remote/MovieDataSource.dart';
+import '../model/BoxOfficeResponse.dart';
 
 class MovieRepositoryImpl implements MovieRepository{
-  final MovieDataSource _myService = GetIt.instance<MovieDataSource>();
+  final MovieDataSource _myService;
+
+  MovieRepositoryImpl(this._myService);
 
   @override
   Future<BoxOfficeResponse> getDailyBoxOfficeList(

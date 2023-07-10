@@ -1,11 +1,12 @@
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:flutter_mvvm/domain/repository/DatabaseRepository.dart';
-import 'package:get_it/get_it.dart';
 
 import '../datasource/local/MovieDatabase.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
-  final MovieDatabase _database = GetIt.instance<MovieDatabase>();
+  final MovieDatabase _database;
+
+  DatabaseRepositoryImpl(this._database);
 
   @override
   void deleteMovie(BoxOffice movie) {

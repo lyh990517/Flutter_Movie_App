@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 import '../../../data/model/BoxOffice.dart';
 
 class MovieDetailScreen extends StatelessWidget {

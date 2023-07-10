@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
-import 'package:flutter_mvvm/presentation/view/main.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../di/module.dart';
 
 class MyMovieScreenWidget extends HookConsumerWidget {
   const MyMovieScreenWidget({Key? key}) : super(key: key);
