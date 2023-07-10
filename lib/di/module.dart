@@ -12,14 +12,16 @@ import '../domain/usecase/GetMovieListUseCase.dart';
 import '../domain/usecase/SaveOneMovieUseCase.dart';
 import '../presentation/viewmodel/MovieViewModel.dart';
 
+
+//Data
 final movieDatabaseProvider = Provider((ref) => MovieDatabase());
+
+final movieDataSourceProvider = Provider((ref) => MovieDataSource());
 
 final databaseRepositoryProvider = Provider<DatabaseRepository>((ref) {
   final movieDatabase = ref.watch(movieDatabaseProvider);
   return DatabaseRepositoryImpl(movieDatabase);
 });
-
-final movieDataSourceProvider = Provider((ref) => MovieDataSource());
 
 
 final movieRepositoryProvider = Provider<MovieRepository>((ref) {
@@ -27,7 +29,7 @@ final movieRepositoryProvider = Provider<MovieRepository>((ref) {
   return MovieRepositoryImpl(movieDataSource);
 });
 
-
+//Domain
 final deleteOneMovieUseCaseProvider = Provider<DeleteOneMovieUseCase>((ref) {
   final databaseRepository = ref.watch(databaseRepositoryProvider);
   return DeleteOneMovieUseCase(databaseRepository);
@@ -48,6 +50,7 @@ final saveOneMovieUseCaseProvider = Provider<SaveOneMovieUseCase>((ref) {
   return SaveOneMovieUseCase(databaseRepository);
 });
 
+//Presentation
 final movieViewModelProvider = ChangeNotifierProvider((ref) {
   var deleteOneMovieUseCase = ref.watch(deleteOneMovieUseCaseProvider);
   var getMovieListFromDatabaseUseCase = ref.watch(getMovieListFromDatabaseUseCaseProvider);
