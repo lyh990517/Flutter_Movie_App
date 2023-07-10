@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-
-import '../../../data/model/BoxOffice.dart';
+import 'package:flutter_mvvm/di/module.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../Screen/MovieDetailWidget.dart';
 
-class MovieItem extends StatelessWidget {
+class MovieItem extends HookConsumerWidget {
   const MovieItem({
     Key? key,
-    required this.movie,
-    required this.onSave,
+    required this.onClick,
+    required this.index
   }) : super(key: key);
 
-  final BoxOffice? movie;
-  final void Function(BoxOffice movie) onSave;
+  final void Function() onClick;
+  final int index;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(movieViewModelProvider);
     return GestureDetector(
       onTap: () {
+        onClick();
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MovieDetailScreen(
-                      movie: movie,
-                      onSave: onSave,
-                    )));
+                builder: (context) => MovieDetailScreen()));
       },
       child: Container(
         color: Colors.greenAccent,
@@ -38,7 +37,7 @@ class MovieItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie?.movieNm ?? "",
+                    viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].movieNm ?? "",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -48,9 +47,9 @@ class MovieItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("${movie?.rank}위"),
+                      Text("${viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].rank}위"),
                       const SizedBox(width: 10),
-                      Text("개봉 일자: ${movie?.openDt}")
+                      Text("개봉 일자: ${viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].openDt}")
                     ],
                   )
                 ],

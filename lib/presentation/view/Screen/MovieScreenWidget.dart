@@ -61,11 +61,8 @@ class MovieScreen extends HookConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MovieItem(
-                    movie: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index],
-                    onSave: (movie) {
-                      viewModel.saveMovie(movie);
-                      viewModel.loadMovies();
-                    },
+                    onClick: (){ viewModel.selectMovie(index); },
+                    index: index,
                   ),
                 );
               },

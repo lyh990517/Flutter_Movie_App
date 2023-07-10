@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm/data/model/BoxOffice.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../di/module.dart';
@@ -10,7 +10,10 @@ class MyMovieScreenWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(movieViewModelProvider);
-
+    useEffect(() {
+      viewModel.fetchDatabase();
+      return null;
+    }, []);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -25,10 +28,7 @@ class MyMovieScreenWidget extends HookConsumerWidget {
         itemCount: viewModel.myMovie.length,
         itemBuilder: (context, index) {
           return MyMovieItem(
-            movie: viewModel.myMovie[index],
-            onDelete: () {
-              viewModel.deleteMovie(index);
-            },
+              index: index
           );
         },
       ),
@@ -36,24 +36,23 @@ class MyMovieScreenWidget extends HookConsumerWidget {
   }
 }
 
-class MyMovieItem extends StatelessWidget {
+class MyMovieItem extends HookConsumerWidget {
   const MyMovieItem({
     super.key,
-    required this.movie,
-    required this.onDelete,
+    required this.index
   });
 
-  final BoxOffice movie;
-  final void Function() onDelete;
+  final int index;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(movieViewModelProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          IconButton(onPressed: onDelete, icon: const Icon(Icons.delete)),
-          Text(movie.movieNm),
+          IconButton(onPressed: () {viewModel.deleteMovie(index);}, icon: const Icon(Icons.delete)),
+          Text(viewModel.myMovie[index].movieNm),
         ],
       ),
     );

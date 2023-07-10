@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mvvm/domain/usecase/DeleteOneMovieUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListFromDatabaseUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
+import 'package:hive/hive.dart';
 
 import '../../data/model/BoxOffice.dart';
 import '../../data/model/BoxOfficeResponse.dart';
@@ -17,8 +18,17 @@ class MovieViewModel extends ChangeNotifier {
   BoxOfficeResponse? _movies;
   BoxOfficeResponse? get movies => _movies;
 
+  BoxOffice? _selectedMovie;
+  BoxOffice? get selectedMovie => _selectedMovie;
+
   late List<BoxOffice> _myMovie;
   List<BoxOffice> get myMovie => _myMovie;
+
+
+  void selectMovie(int index) async {
+    _selectedMovie = _movies!.boxOfficeResult.dailyBoxOfficeList[index];
+    notifyListeners();
+  }
 
   Future<void> getMovieList(String targetDt, String itemPerPage) async {
     try {
@@ -34,9 +44,10 @@ class MovieViewModel extends ChangeNotifier {
   void saveMovie(BoxOffice? movie) async {
     if (movie == null) return;
     _saveOneMovieUseCase.invoke(movie);
+    await fetchDatabase();
   }
 
-  Future<List<BoxOffice>> loadMovies() async {
+  Future<List<BoxOffice>> fetchDatabase() async {
     var movies = await _getMovieListFromDatabaseUseCase.invoke();
     _myMovie = movies;
     notifyListeners();
@@ -45,6 +56,6 @@ class MovieViewModel extends ChangeNotifier {
 
   void deleteMovie(int index) async {
     _deleteOneMovieUseCase.invoke(myMovie[index]);
-    await loadMovies();
+    await fetchDatabase();
   }
 }
