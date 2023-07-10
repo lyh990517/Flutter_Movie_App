@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../data/datasource/local/BoxOfficeAdapter.dart';
 import '../../di/module.dart';
 import '../viewmodel/MovieViewModel.dart';

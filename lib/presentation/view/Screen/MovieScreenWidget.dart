@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/presentation/view/main.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import '../../viewmodel/MovieViewModel.dart';
 import '../ui_component/MovieItem.dart';
 import '../ui_component/SearchBarWidget.dart';
 import 'MyMovieScreenWidget.dart';
 
-class MovieScreen extends ConsumerWidget {
+class MovieScreen extends HookConsumerWidget {
   const MovieScreen({
     super.key,
   });
