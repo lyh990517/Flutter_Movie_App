@@ -8,18 +8,16 @@ import '../../data/model/BoxOfficeResponse.dart';
 import '../../domain/usecase/SaveOneMovieUseCase.dart';
 
 class MovieViewModel extends ChangeNotifier {
-  BoxOfficeResponse? _movies;
-
   final SaveOneMovieUseCase _saveOneMovieUseCase;
   final DeleteOneMovieUseCase _deleteOneMovieUseCase;
   final GetMovieListFromDatabaseUseCase _getMovieListFromDatabaseUseCase;
   final GetMovieListUseCase _getMovieListUseCase;
   MovieViewModel(this._deleteOneMovieUseCase, this._saveOneMovieUseCase, this._getMovieListFromDatabaseUseCase, this._getMovieListUseCase);
 
+  BoxOfficeResponse? _movies;
   BoxOfficeResponse? get movies => _movies;
 
   late List<BoxOffice> _myMovie;
-
   List<BoxOffice> get myMovie => _myMovie;
 
   Future<void> getMovieList(String targetDt, String itemPerPage) async {
