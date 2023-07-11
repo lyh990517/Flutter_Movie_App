@@ -15,10 +15,7 @@ import '../presentation/viewmodel/MovieViewModel.dart';
 
 
 //Data
-final movieDatabaseProvider = Provider((ref) {
-  final crawler = ref.watch(moviePosterCrawlerProvider);
-  return MovieDatabase(crawler);
-});
+final movieDatabaseProvider = Provider((ref) => MovieDatabase());
 
 final movieDataSourceProvider = Provider((ref) => MovieDataSource());
 
