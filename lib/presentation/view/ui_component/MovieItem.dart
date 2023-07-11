@@ -27,48 +27,36 @@ class MovieItem extends HookConsumerWidget {
         );
       },
       child: Container(
-        height: 300,
         color: Colors.greenAccent,
-        child: Column(
+        child: Row(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.movie),
-            ),
             Expanded(
-              child: Column(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].movieNm ?? "",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("${viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].rank}위"),
-                      const SizedBox(width: 10),
-                      Text("개봉 일자: ${viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].openDt}"),
-                    ],
-                  ),
                   FutureBuilder<String>(
                     future: crawler.crawl(viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].movieNm ?? ""),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
                         final imageUrl = snapshot.data ?? "";
-                        return Image.network(imageUrl);
+                        return Image.network(imageUrl,width: 150, height: 200, fit: BoxFit.fill,);
                       }
                     },
+                  ),
+                  Expanded(
+                    child: Text(
+                      viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].movieNm ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
