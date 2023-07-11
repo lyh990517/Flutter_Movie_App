@@ -1,3 +1,4 @@
+import 'package:flutter_mvvm/data/datasource/remote/MoviePosterCrawler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/datasource/local/MovieDatabase.dart';
@@ -14,7 +15,10 @@ import '../presentation/viewmodel/MovieViewModel.dart';
 
 
 //Data
-final movieDatabaseProvider = Provider((ref) => MovieDatabase());
+final movieDatabaseProvider = Provider((ref) {
+  final crawler = ref.watch(moviePosterCrawlerProvider);
+  return MovieDatabase(crawler);
+});
 
 final movieDataSourceProvider = Provider((ref) => MovieDataSource());
 
@@ -22,6 +26,8 @@ final databaseRepositoryProvider = Provider<DatabaseRepository>((ref) {
   final movieDatabase = ref.watch(movieDatabaseProvider);
   return DatabaseRepositoryImpl(movieDatabase);
 });
+
+final moviePosterCrawlerProvider = Provider((ref) => MoviePosterCrawler());
 
 
 final movieRepositoryProvider = Provider<MovieRepository>((ref) {
