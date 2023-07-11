@@ -47,7 +47,6 @@ class MovieScreen extends HookConsumerWidget {
         children: [
           SearchBarWidget(
             textEditingController: textEditingController,
-            viewModel: viewModel,
           ),
           Padding(
             padding: const EdgeInsets.all(10),

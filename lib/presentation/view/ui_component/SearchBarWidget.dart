@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/di/module.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../viewmodel/MovieViewModel.dart';
 
-class SearchBarWidget extends StatelessWidget {
+class SearchBarWidget extends HookConsumerWidget {
   const SearchBarWidget({
     super.key,
     required this.textEditingController,
-    required this.viewModel,
   });
 
   final TextEditingController textEditingController;
-  final MovieViewModel viewModel;
 
   void _handleSearch(MovieViewModel viewModel) {
     final searchText = textEditingController.text;
@@ -18,7 +18,8 @@ class SearchBarWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(movieViewModelProvider);
     return Row(
       children: [
         Flexible(
