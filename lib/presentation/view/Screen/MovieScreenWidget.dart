@@ -32,6 +32,7 @@ class MovieScreen extends HookConsumerWidget {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         drawer: Drawer(
           child: ListView(
             children: [
@@ -43,38 +44,48 @@ class MovieScreen extends HookConsumerWidget {
             ],
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SearchBarWidget(
-              textEditingController: textEditingController,
-            ),
-            SizedBox(
-              height: 250,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
-                itemBuilder: (context, index) {
-                  return MovieItem(
-                    onClick: (){ viewModel.selectMovie(index); },
-                    index: index,
-                  );
-                },
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SearchBarWidget(
+                textEditingController: textEditingController,
               ),
-            ),
-            SizedBox(
-              height: 300,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: viewModel.myMovie?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return MyMovieItem(
-                    index: index,
-                  );
-                },
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("금주의 최신영화",style: TextStyle(fontSize: 25)),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 250,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
+                  itemBuilder: (context, index) {
+                    return MovieItem(
+                      onClick: (){ viewModel.selectMovie(index); },
+                      index: index,
+                    );
+                  },
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("내가 찜한 영화",style: TextStyle(fontSize: 25)),
+              ),
+              SizedBox(
+                height: 300,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: viewModel.myMovie?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return MyMovieItem(
+                      index: index,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

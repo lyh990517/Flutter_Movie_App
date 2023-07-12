@@ -52,8 +52,7 @@ class MyMovieItem extends HookConsumerWidget {
             width: 150,
             child: Column(
               children: [
-                Text(viewModel.movies?.boxOfficeResult
-                    .dailyBoxOfficeList[index].movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center),
+                Text(viewModel.myMovie?[index].movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center),
               ],
             ),
           ),
