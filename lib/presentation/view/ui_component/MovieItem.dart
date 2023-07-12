@@ -17,51 +17,54 @@ class MovieItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(movieViewModelProvider);
     final crawler = ref.watch(moviePosterCrawlerProvider);
-
     return GestureDetector(
       onTap: () {
         onClick();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MovieDetailScreen()),
+          MaterialPageRoute(builder: (context) => const MovieDetailScreen()),
         );
       },
-      child: Container(
-        color: Colors.greenAccent,
-        child: Row(
-          children: [
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FutureBuilder<String>(
-                    future: crawler.crawl(viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].movieNm ?? ""),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        final imageUrl = snapshot.data ?? "";
-                        return Image.network(imageUrl,width: 150, height: 200, fit: BoxFit.fill,);
-                      }
-                    },
-                  ),
-                  Expanded(
-                    child: Text(
-                      viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index].movieNm ?? "",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 150,
+          child: Column(
+            children: [
+              FutureBuilder<String>(
+                future: crawler.crawl(viewModel.movies?.boxOfficeResult
+                    .dailyBoxOfficeList[index].movieNm ?? ""),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox(
+                        width: 150,
+                        height: 200,
+                        child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Image.network(
+                      "https://fastly.picsum.photos/id/211/200/300.jpg?hmac=wrwgBoS1KPKiLCrxowMtMQ7NpVlzI1NvocRSpH6HSm0",
+                      width: 150,
+                      height: 200,
+                      fit: BoxFit.fill,
+                    );
+                  } else {
+                    final imageUrl = snapshot.data ?? "";
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Image.network(
+                        imageUrl,
+                        width: 150,
+                        height: 200,
+                        fit: BoxFit.fill,
                       ),
-                    ),
-                  ),
-                ],
+                    );
+                  }
+                },
               ),
-            ),
-          ],
+              Text(viewModel.movies?.boxOfficeResult
+                  .dailyBoxOfficeList[index].movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center)
+            ],
+          ),
         ),
       ),
     );

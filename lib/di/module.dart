@@ -1,4 +1,4 @@
-import 'package:flutter_mvvm/data/datasource/remote/MoviePosterCrawler.dart';
+import 'package:flutter_mvvm/utils/MoviePosterCrawler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/datasource/local/MovieDatabase.dart';

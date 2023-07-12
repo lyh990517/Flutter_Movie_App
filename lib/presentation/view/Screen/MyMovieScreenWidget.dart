@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../di/module.dart';
+import '../ui_component/MyMovieItem.dart';
 
 class MyMovieScreenWidget extends HookConsumerWidget {
   const MyMovieScreenWidget({Key? key}) : super(key: key);
@@ -31,29 +32,6 @@ class MyMovieScreenWidget extends HookConsumerWidget {
               index: index
           );
         },
-      ),
-    );
-  }
-}
-
-class MyMovieItem extends HookConsumerWidget {
-  const MyMovieItem({
-    super.key,
-    required this.index
-  });
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(movieViewModelProvider);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          IconButton(onPressed: () {viewModel.deleteMovie(index);}, icon: const Icon(Icons.delete)),
-          Text(viewModel.myMovie[index].movieNm),
-        ],
       ),
     );
   }

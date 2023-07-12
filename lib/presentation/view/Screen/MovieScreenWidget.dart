@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../di/module.dart';
-import '../../viewmodel/MovieViewModel.dart';
+import '../ui_component/DrawerItem.dart';
 import '../ui_component/MovieItem.dart';
+import '../ui_component/MyMovieItem.dart';
 import '../ui_component/SearchBarWidget.dart';
-import 'MyMovieScreenWidget.dart';
 
 class MovieScreen extends HookConsumerWidget {
   const MovieScreen({
@@ -17,93 +18,62 @@ class MovieScreen extends HookConsumerWidget {
     final viewModel = ref.watch(movieViewModelProvider);
     TextEditingController textEditingController = TextEditingController();
 
-    String formatDate() {
-      if (textEditingController.text.isNotEmpty) {
-        DateTime date = DateTime.parse(textEditingController.text);
-        final formatter = DateFormat('yyyy년 MM월 dd일');
-        return formatter.format(date);
-      } else {
-        return "";
-      }
+    void getMovies(){
+      DateTime today = DateTime.now();
+      DateTime yesterday = today.subtract(Duration(days: 1));
+      String yesterdayDate = DateFormat('yyyyMMdd').format(yesterday);
+      viewModel.getMovieList(yesterdayDate, "10");
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Movies'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerItem(
-              title: "My Movies",
-              icon: Icons.favorite,
-              viewModel: viewModel,
-            ),
-          ],
+    useEffect(() {
+      getMovies();
+      return null;
+    },[]);
+
+    return SafeArea(
+      child: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerItem(
+                title: "My Movies",
+                icon: Icons.favorite,
+                viewModel: viewModel,
+              ),
+            ],
+          ),
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SearchBarWidget(
-            textEditingController: textEditingController,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text("검색 일자: ${formatDate()}"),
-          ),
-          Flexible(
-            flex: 1,
-            child: ListView.builder(
-              itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MovieItem(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SearchBarWidget(
+              textEditingController: textEditingController,
+            ),
+            SizedBox(
+              height: 250,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
+                itemBuilder: (context, index) {
+                  return MovieItem(
                     onClick: (){ viewModel.selectMovie(index); },
                     index: index,
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DrawerItem extends StatelessWidget {
-  const DrawerItem({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.viewModel,
-  });
-
-  final String title;
-  final IconData icon;
-  final MovieViewModel viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyMovieScreenWidget()));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            const SizedBox(width: 10),
-            Icon(icon),
-            const SizedBox(
-              width: 10,
+            SizedBox(
+              height: 300,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: viewModel.myMovie.length,
+                itemBuilder: (context, index) {
+                  return MyMovieItem(
+                    index: index,
+                  );
+                },
+              ),
             ),
-            Text(title)
           ],
         ),
       ),
