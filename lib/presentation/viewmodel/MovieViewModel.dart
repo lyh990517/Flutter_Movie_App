@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mvvm/domain/usecase/DeleteOneMovieUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListFromDatabaseUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
-import 'package:hive/hive.dart';
-
 import '../../data/model/BoxOffice.dart';
 import '../../data/model/BoxOfficeResponse.dart';
 import '../../domain/usecase/SaveOneMovieUseCase.dart';
@@ -21,8 +19,8 @@ class MovieViewModel extends ChangeNotifier {
   BoxOffice? _selectedMovie;
   BoxOffice? get selectedMovie => _selectedMovie;
 
-  late List<BoxOffice> _myMovie;
-  List<BoxOffice> get myMovie => _myMovie;
+  List<BoxOffice>? _myMovie;
+  List<BoxOffice>? get myMovie => _myMovie;
 
 
   void selectMovie(int index) async {
@@ -35,6 +33,7 @@ class MovieViewModel extends ChangeNotifier {
       BoxOfficeResponse fetchedPosts =
           await _getMovieListUseCase.invoke(targetDt, itemPerPage);
       _movies = fetchedPosts;
+      await fetchDatabase();
       notifyListeners();
     } catch (e) {
       print("Error fetching posts: $e");
@@ -55,7 +54,7 @@ class MovieViewModel extends ChangeNotifier {
   }
 
   void deleteMovie(int index) async {
-    _deleteOneMovieUseCase.invoke(myMovie[index]);
+    _deleteOneMovieUseCase.invoke(myMovie![index]);
     await fetchDatabase();
   }
 }

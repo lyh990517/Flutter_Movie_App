@@ -20,7 +20,7 @@ class MyMovieItem extends HookConsumerWidget {
       child: Column(
         children: [
           FutureBuilder<String>(
-            future: crawler.crawl(viewModel.myMovie[index].movieNm ?? ""),
+            future: crawler.crawl(viewModel.myMovie![index].movieNm ?? ""),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox(
@@ -48,11 +48,14 @@ class MyMovieItem extends HookConsumerWidget {
               }
             },
           ),
-          Row(
-            children: [
-              Text(viewModel.myMovie[index].movieNm ,style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center),
-              IconButton(onPressed: () {viewModel.deleteMovie(index);}, icon: const Icon(Icons.delete)),
-            ],
+          SizedBox(
+            width: 150,
+            child: Column(
+              children: [
+                Text(viewModel.movies?.boxOfficeResult
+                    .dailyBoxOfficeList[index].movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center),
+              ],
+            ),
           ),
         ],
       ),

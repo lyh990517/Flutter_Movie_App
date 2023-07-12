@@ -11,10 +11,6 @@ class MyMovieScreenWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(movieViewModelProvider);
-    useEffect(() {
-      viewModel.fetchDatabase();
-      return null;
-    }, []);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -26,7 +22,7 @@ class MyMovieScreenWidget extends HookConsumerWidget {
         title: const Text("My Movies"),
       ),
       body: ListView.builder(
-        itemCount: viewModel.myMovie.length,
+        itemCount: viewModel.myMovie?.length ?? 0,
         itemBuilder: (context, index) {
           return MyMovieItem(
               index: index

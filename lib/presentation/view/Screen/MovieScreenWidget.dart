@@ -66,7 +66,7 @@ class MovieScreen extends HookConsumerWidget {
               height: 300,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: viewModel.myMovie.length,
+                itemCount: viewModel.myMovie?.length ?? 0,
                 itemBuilder: (context, index) {
                   return MyMovieItem(
                     index: index,
