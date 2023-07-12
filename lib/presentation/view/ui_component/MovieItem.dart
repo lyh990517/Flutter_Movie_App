@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/di/module.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../data/model/BoxOffice.dart';
 import '../Screen/MovieDetailWidget.dart';
 
 class MovieItem extends HookConsumerWidget {
@@ -8,14 +9,15 @@ class MovieItem extends HookConsumerWidget {
     Key? key,
     required this.onClick,
     required this.index,
+    required this.movie
   }) : super(key: key);
 
+  final BoxOffice? movie;
   final void Function() onClick;
   final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(movieViewModelProvider);
     final crawler = ref.watch(moviePosterCrawlerProvider);
     return GestureDetector(
       onTap: () {
@@ -32,8 +34,7 @@ class MovieItem extends HookConsumerWidget {
           child: Column(
             children: [
               FutureBuilder<String>(
-                future: crawler.crawl(viewModel.movies?.boxOfficeResult
-                    .dailyBoxOfficeList[index].movieNm ?? ""),
+                future: crawler.crawl(movie?.movieNm ?? ""),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const SizedBox(
@@ -61,8 +62,7 @@ class MovieItem extends HookConsumerWidget {
                   }
                 },
               ),
-              Text(viewModel.movies?.boxOfficeResult
-                  .dailyBoxOfficeList[index].movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center)
+              Text(movie?.movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center)
             ],
           ),
         ),

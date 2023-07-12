@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../../../di/module.dart';
 import '../ui_component/DrawerItem.dart';
 import '../ui_component/MovieItem.dart';
-import '../ui_component/MyMovieItem.dart';
 import '../ui_component/SearchBarWidget.dart';
 
 class MovieScreen extends HookConsumerWidget {
@@ -62,6 +61,7 @@ class MovieScreen extends HookConsumerWidget {
                   itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length,
                   itemBuilder: (context, index) {
                     return MovieItem(
+                      movie: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList[index],
                       onClick: (){ viewModel.selectMovie(index); },
                       index: index,
                     );
@@ -78,9 +78,7 @@ class MovieScreen extends HookConsumerWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: viewModel.myMovie?.length ?? 0,
                   itemBuilder: (context, index) {
-                    return MyMovieItem(
-                      index: index,
-                    );
+                    return MovieItem(onClick: (){}, index: index, movie: viewModel.myMovie?[index]);
                   },
                 ),
               ),

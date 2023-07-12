@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_mvvm/presentation/view/ui_component/MovieItem.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../di/module.dart';
-import '../ui_component/MyMovieItem.dart';
 
 class MyMovieScreenWidget extends HookConsumerWidget {
   const MyMovieScreenWidget({Key? key}) : super(key: key);
@@ -24,8 +24,8 @@ class MyMovieScreenWidget extends HookConsumerWidget {
       body: ListView.builder(
         itemCount: viewModel.myMovie?.length ?? 0,
         itemBuilder: (context, index) {
-          return MyMovieItem(
-              index: index
+          return MovieItem(
+              index: index, onClick: () {  }, movie: viewModel.myMovie?[index],
           );
         },
       ),
