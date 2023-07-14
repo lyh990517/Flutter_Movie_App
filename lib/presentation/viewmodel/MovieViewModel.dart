@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mvvm/domain/usecase/DeleteOneMovieUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListFromDatabaseUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
+
 import '../../data/model/BoxOffice.dart';
 import '../../data/model/BoxOfficeResponse.dart';
 import '../../domain/usecase/SaveOneMovieUseCase.dart';

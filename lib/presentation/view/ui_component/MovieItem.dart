@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/di/module.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../../data/model/BoxOffice.dart';
 import '../Screen/MovieDetailWidget.dart';
 
