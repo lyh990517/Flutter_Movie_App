@@ -29,9 +29,10 @@ class MyApp extends HookConsumerWidget {
       return null;
     },[]);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: const MovieScreen(),
       theme: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent)),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.black)),
     );
   }
 }

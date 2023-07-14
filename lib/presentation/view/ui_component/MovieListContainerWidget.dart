@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../data/model/BoxOffice.dart';
 import 'MovieItem.dart';
@@ -22,8 +23,8 @@ class MovieListContainerWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(title, style: const TextStyle(fontSize: 25)),
+          padding: const EdgeInsets.all(4.0),
+          child: Text(title, style: const TextStyle(fontSize: 25,color: Colors.white)),
         ),
         SizedBox(
           height: 300,

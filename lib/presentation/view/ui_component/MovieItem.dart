@@ -63,7 +63,7 @@ class MovieItem extends HookConsumerWidget {
                   }
                 },
               ),
-              Text(movie?.movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15),maxLines: 2,textAlign: TextAlign.center)
+              Text(movie?.movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15,color: Colors.white),maxLines: 2,textAlign: TextAlign.center)
             ],
           ),
         ),

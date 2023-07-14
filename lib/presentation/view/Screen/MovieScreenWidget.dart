@@ -32,6 +32,13 @@ class MovieScreen extends HookConsumerWidget {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          actions: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+          ],
+        ),
+        backgroundColor: Colors.black,
         resizeToAvoidBottomInset: false,
         drawer: Drawer(
           child: ListView(
@@ -48,9 +55,6 @@ class MovieScreen extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SearchBarWidget(
-                textEditingController: textEditingController,
-              ),
               MovieListContainerWidget(
                   movieList: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList,
                   itemCount: viewModel.movies?.boxOfficeResult.dailyBoxOfficeList.length ?? 0,
