@@ -29,11 +29,11 @@ class DrawerItem extends StatelessWidget {
         child: Row(
           children: [
             const SizedBox(width: 10),
-            Icon(icon),
+            Icon(icon,color: Colors.red),
             const SizedBox(
               width: 10,
             ),
-            Text(title)
+            Text(title,style: const TextStyle(color: Colors.white),)
           ],
         ),
       ),

@@ -33,6 +33,7 @@ class MovieScreen extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.red),
           backgroundColor: Colors.black,
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.search))
@@ -41,6 +42,7 @@ class MovieScreen extends HookConsumerWidget {
         backgroundColor: Colors.black,
         resizeToAvoidBottomInset: false,
         drawer: Drawer(
+          backgroundColor: Colors.black,
           child: ListView(
             children: [
               DrawerItem(
