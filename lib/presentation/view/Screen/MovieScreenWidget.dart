@@ -4,6 +4,9 @@ import 'package:flutter_mvvm/data/model/BoxOffice.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../di/module.dart';
+import '../../../utils/ImageUtil.dart';
+import '../../../utils/MoviePosterCrawler.dart';
+import '../../viewmodel/MovieViewModel.dart';
 import '../ui_component/DrawerItem.dart';
 import '../ui_component/MovieListContainerWidget.dart';
 
@@ -16,6 +19,7 @@ class MovieScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(movieViewModelProvider);
     final moviesFuture = useMemoized(() => viewModel.getRecentMovie());
+    final crawler = ref.watch(moviePosterCrawlerProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -43,30 +47,16 @@ class MovieScreen extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder<void>(
-                future: moviesFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return MovieListContainerWidget(
-                      movieList: snapshot.data as List<BoxOffice>,
-                      itemCount: (snapshot.data as List<BoxOffice>).length,
-                      title: "금주의 최신 영화",
-                      selectMovie: (index) => viewModel.selectMovie(index),
-                      onClick: () {print("1");},
-                    );
-                  }
-                },
-              ),
+              const SizedBox(height: 20),
+              _buildRecentMoviesSection(viewModel, moviesFuture, crawler),
               MovieListContainerWidget(
                 movieList: viewModel.myMovie,
                 itemCount: viewModel.myMovie?.length ?? 0,
                 title: "내가 찜한 영화",
                 selectMovie: (index) => viewModel.selectMovie(index),
-                onClick: () {print("2");},
+                onClick: () {
+                  print("2");
+                },
               ),
             ],
           ),
@@ -74,4 +64,39 @@ class MovieScreen extends HookConsumerWidget {
       ),
     );
   }
+
+  Widget _buildRecentMoviesSection(
+      MovieViewModel viewModel,
+      Future<List<BoxOffice>?> moviesFuture,
+      MoviePosterCrawler crawler,
+      ) {
+    return FutureBuilder<List<BoxOffice>?>(
+      future: moviesFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          final movies = snapshot.data ?? [];
+          return Column(
+            children: [
+              posterImage(crawler, movies[0],double.infinity),
+              const SizedBox(height: 20),
+              MovieListContainerWidget(
+                movieList: movies,
+                itemCount: movies.length,
+                title: "금주의 최신 영화",
+                selectMovie: (index) => viewModel.selectMovie(index),
+                onClick: () {
+                  print("1");
+                },
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
 }
+

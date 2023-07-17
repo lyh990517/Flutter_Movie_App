@@ -9,6 +9,7 @@ class MoviePosterCrawler {
       await httpClient.getUrl(Uri.parse("https://www.themoviedb.org/search?query=$code"));
       HttpClientResponse response = await request.close();
       final text = await response.transform(utf8.decoder).join();
+      print(text);
       httpClient.close();
       RegExp regExp = RegExp(r'<img loading="lazy" class="poster" src="([^"]+)"');
       Match? match = regExp.firstMatch(text);

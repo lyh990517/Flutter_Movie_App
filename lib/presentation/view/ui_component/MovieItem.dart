@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/di/module.dart';
+import 'package:flutter_mvvm/utils/ImageUtil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../data/model/BoxOffice.dart';
@@ -37,35 +38,7 @@ class MovieItem extends HookConsumerWidget {
           width: 150,
           child: Column(
             children: [
-              FutureBuilder<String>(
-                future: crawler.crawl(movie?.movieNm ?? ""),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox(
-                        width: 150,
-                        height: 200,
-                        child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Image.network(
-                      "https://fastly.picsum.photos/id/211/200/300.jpg?hmac=wrwgBoS1KPKiLCrxowMtMQ7NpVlzI1NvocRSpH6HSm0",
-                      width: 150,
-                      height: 200,
-                      fit: BoxFit.fill,
-                    );
-                  } else {
-                    final imageUrl = snapshot.data ?? "";
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.network(
-                        imageUrl,
-                        width: 150,
-                        height: 200,
-                        fit: BoxFit.fill,
-                      ),
-                    );
-                  }
-                },
-              ),
+              posterImage(crawler, movie,150.0),
               Text(movie?.movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15,color: Colors.white),maxLines: 2,textAlign: TextAlign.center)
             ],
           ),
