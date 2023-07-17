@@ -5,7 +5,10 @@ import '../data/model/BoxOffice.dart';
 import 'MoviePosterCrawler.dart';
 
 Widget posterImage(
-    MoviePosterCrawler crawler, BoxOffice? movies, double width) {
+    MoviePosterCrawler crawler,
+    BoxOffice? movies,
+    double width,
+    ) {
   final movieName = movies?.movieNm;
   return FutureBuilder<String>(
     future: crawler.crawl(movieName ?? ""),
@@ -21,15 +24,31 @@ Widget posterImage(
         );
       } else {
         final imageUrl = snapshot.data ?? "";
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(16.0),
-          child: Image.network(
-            width: width,
-            imageUrl,
-            fit: BoxFit.fill,
-          ),
+        return Stack(
+          children: [
+            Image.network(
+              width: width,
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.9),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       }
     },
   );
 }
+
