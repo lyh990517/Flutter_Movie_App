@@ -4,19 +4,17 @@ import 'package:flutter/material.dart';
 import '../data/model/BoxOffice.dart';
 import 'MoviePosterCrawler.dart';
 
-Widget posterImage(
-    MoviePosterCrawler crawler,
-    BoxOffice? movies,
-    double width,
-    double gradient
-    ) {
+Widget posterImage(MoviePosterCrawler crawler, BoxOffice? movies, double width,
+    double gradient) {
   final movieName = movies?.movieNm;
   return FutureBuilder<String>(
     future: crawler.crawl(movieName ?? ""),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const SizedBox(
-          child: CircularProgressIndicator(),
+        return  Container(
+          width: 150,
+          height: 200,
+          child: CircularProgressIndicator(), // Loading animation
         );
       } else if (snapshot.hasError) {
         return Image.network(
@@ -27,21 +25,30 @@ Widget posterImage(
         final imageUrl = snapshot.data ?? "";
         return Stack(
           children: [
-            Image.network(
-              width: width,
-              imageUrl,
-              fit: BoxFit.fill,
+            Column(
+              children: [
+                Image.network(
+                  width: width,
+                  imageUrl,
+                  fit: BoxFit.fill,
+                ),
+                const SizedBox(height: 2)
+              ],
             ),
             Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black.withOpacity(gradient),
-                      Colors.transparent,
-                    ],
+              child: FractionallySizedBox(
+                alignment: Alignment.bottomCenter,
+                heightFactor: gradient,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black.withOpacity(gradient),
+                        Colors.transparent,
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -52,4 +59,3 @@ Widget posterImage(
     },
   );
 }
-

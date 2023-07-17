@@ -66,10 +66,10 @@ class MovieScreen extends HookConsumerWidget {
   }
 
   Widget _buildRecentMoviesSection(
-      MovieViewModel viewModel,
-      Future<List<BoxOffice>?> moviesFuture,
-      MoviePosterCrawler crawler,
-      ) {
+    MovieViewModel viewModel,
+    Future<List<BoxOffice>?> moviesFuture,
+    MoviePosterCrawler crawler,
+  ) {
     return FutureBuilder<List<BoxOffice>?>(
       future: moviesFuture,
       builder: (context, snapshot) {
@@ -81,7 +81,16 @@ class MovieScreen extends HookConsumerWidget {
           final movies = snapshot.data ?? [];
           return Column(
             children: [
-              posterImage(crawler, movies[0],double.infinity,1),
+              Stack(alignment: Alignment.bottomCenter, children: [
+                posterImage(crawler, movies[0], double.infinity, 1),
+                Column(
+                  children: [
+                    Text(snapshot.data?[0].movieNm ?? "",
+                        style: TextStyle(color: Colors.white, fontSize: 40),textAlign: TextAlign.center),
+                    SizedBox(height: 120)
+                  ],
+                )
+              ]),
               const SizedBox(height: 20),
               MovieListContainerWidget(
                 movieList: movies,
@@ -99,4 +108,3 @@ class MovieScreen extends HookConsumerWidget {
     );
   }
 }
-
