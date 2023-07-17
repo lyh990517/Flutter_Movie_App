@@ -3,8 +3,8 @@ import 'package:flutter_mvvm/di/module.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class MovieDetailScreen extends HookConsumerWidget {
-  const MovieDetailScreen({super.key});
+class MovieInfoScreen extends HookConsumerWidget {
+  const MovieInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

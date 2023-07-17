@@ -27,7 +27,7 @@ class MovieViewModel extends ChangeNotifier {
 
   void selectMovie(int index) async {
     _selectedMovie = _movies!.boxOfficeResult.dailyBoxOfficeList[index];
-    notifyListeners();
+    print(index);
   }
 
   Future<List<BoxOffice>?> getMovieList(String targetDt, String itemPerPage) async {

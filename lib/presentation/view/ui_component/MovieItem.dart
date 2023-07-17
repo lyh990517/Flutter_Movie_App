@@ -4,7 +4,7 @@ import 'package:flutter_mvvm/utils/ImageUtil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../data/model/BoxOffice.dart';
-import '../Screen/MovieDetailWidget.dart';
+import '../Screen/MovieInfolWidget.dart';
 
 class MovieItem extends HookConsumerWidget {
   const MovieItem({
@@ -27,10 +27,6 @@ class MovieItem extends HookConsumerWidget {
       onTap: () {
         onSelect();
         onClick();
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MovieDetailScreen()),
-        );
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

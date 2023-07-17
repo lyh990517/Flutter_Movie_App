@@ -9,7 +9,6 @@ class MoviePosterCrawler {
       await httpClient.getUrl(Uri.parse("https://www.themoviedb.org/search?query=$code"));
       HttpClientResponse response = await request.close();
       final text = await response.transform(utf8.decoder).join();
-      print(text);
       httpClient.close();
       RegExp regExp = RegExp(r'<img loading="lazy" class="poster" src="([^"]+)"');
       Match? match = regExp.firstMatch(text);
@@ -21,7 +20,6 @@ class MoviePosterCrawler {
         return "";
       }
     } catch (e) {
-      // 예외 처리를 진행합니다.
       print('예외 발생: $e');
       return "";
     }

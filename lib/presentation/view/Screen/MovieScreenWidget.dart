@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mvvm/data/model/BoxOffice.dart';
+import 'package:flutter_mvvm/presentation/view/Screen/MovieDetailScreenWidget.dart';
+import 'package:flutter_mvvm/presentation/view/Screen/MovieSearchScreen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../di/module.dart';
@@ -9,6 +11,7 @@ import '../../../utils/MoviePosterCrawler.dart';
 import '../../viewmodel/MovieViewModel.dart';
 import '../ui_component/DrawerItem.dart';
 import '../ui_component/MovieListContainerWidget.dart';
+import 'MovieInfolWidget.dart';
 
 class MovieScreen extends HookConsumerWidget {
   const MovieScreen({
@@ -27,7 +30,12 @@ class MovieScreen extends HookConsumerWidget {
           iconTheme: const IconThemeData(color: Colors.red),
           backgroundColor: Colors.black,
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            IconButton(onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MovieSearchScreen()),
+              );
+            }, icon: const Icon(Icons.search))
           ],
         ),
         backgroundColor: Colors.black,
@@ -55,7 +63,10 @@ class MovieScreen extends HookConsumerWidget {
                 title: "내가 찜한 영화",
                 selectMovie: (index) => viewModel.selectMovie(index),
                 onClick: () {
-                  print("2");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MovieDetailScreen()),
+                  );
                 },
               ),
             ],
@@ -86,8 +97,8 @@ class MovieScreen extends HookConsumerWidget {
                 Column(
                   children: [
                     Text(snapshot.data?[0].movieNm ?? "",
-                        style: TextStyle(color: Colors.white, fontSize: 40),textAlign: TextAlign.center),
-                    SizedBox(height: 120)
+                        style: const TextStyle(color: Colors.white, fontSize: 40),textAlign: TextAlign.center),
+                    const SizedBox(height: 120)
                   ],
                 )
               ]),
@@ -98,7 +109,10 @@ class MovieScreen extends HookConsumerWidget {
                 title: "금주의 최신 영화",
                 selectMovie: (index) => viewModel.selectMovie(index),
                 onClick: () {
-                  print("1");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MovieInfoScreen()),
+                  );
                 },
               ),
             ],
