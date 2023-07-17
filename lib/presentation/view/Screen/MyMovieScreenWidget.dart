@@ -24,7 +24,7 @@ class MyMovieScreenWidget extends HookConsumerWidget {
         itemCount: viewModel.myMovie?.length ?? 0,
         itemBuilder: (context, index) {
           return MovieItem(
-              index: index, onClick: () {  }, movie: viewModel.myMovie?[index],
+              index: index, onSelect: () {  }, onClick: () {},movie: viewModel.myMovie?[index],
           );
         },
       ),

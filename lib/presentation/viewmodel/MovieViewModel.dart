@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mvvm/domain/usecase/DeleteOneMovieUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListFromDatabaseUseCase.dart';
 import 'package:flutter_mvvm/domain/usecase/GetMovieListUseCase.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/model/BoxOffice.dart';
 import '../../data/model/BoxOfficeResponse.dart';
@@ -29,16 +30,25 @@ class MovieViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getMovieList(String targetDt, String itemPerPage) async {
+  Future<List<BoxOffice>?> getMovieList(String targetDt, String itemPerPage) async {
     try {
       BoxOfficeResponse fetchedPosts =
           await _getMovieListUseCase.invoke(targetDt, itemPerPage);
       _movies = fetchedPosts;
       await fetchDatabase();
-      notifyListeners();
+      return fetchedPosts.boxOfficeResult.dailyBoxOfficeList;
     } catch (e) {
       print("Error fetching posts: $e");
     }
+    return null;
+  }
+
+  Future<List<BoxOffice>?> getRecentMovie() async {
+    DateTime today = DateTime.now();
+    DateTime yesterday = today.subtract(Duration(days: 1));
+    String yesterdayDate = DateFormat('yyyyMMdd').format(yesterday);
+    final movies = await getMovieList(yesterdayDate, "10");
+    return movies;
   }
 
   void saveMovie(BoxOffice? movie) async {

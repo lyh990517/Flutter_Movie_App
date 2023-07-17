@@ -8,12 +8,14 @@ import '../Screen/MovieDetailWidget.dart';
 class MovieItem extends HookConsumerWidget {
   const MovieItem({
     Key? key,
+    required this.onSelect,
     required this.onClick,
     required this.index,
     required this.movie
   }) : super(key: key);
 
   final BoxOffice? movie;
+  final void Function() onSelect;
   final void Function() onClick;
   final int index;
 
@@ -22,6 +24,7 @@ class MovieItem extends HookConsumerWidget {
     final crawler = ref.watch(moviePosterCrawlerProvider);
     return GestureDetector(
       onTap: () {
+        onSelect();
         onClick();
         Navigator.push(
           context,
