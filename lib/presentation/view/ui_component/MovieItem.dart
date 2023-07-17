@@ -38,7 +38,7 @@ class MovieItem extends HookConsumerWidget {
           width: 150,
           child: Column(
             children: [
-              posterImage(crawler, movie,150.0),
+              posterImage(crawler, movie,150.0,0),
               Text(movie?.movieNm ?? "",style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15,color: Colors.white),maxLines: 2,textAlign: TextAlign.center)
             ],
           ),

@@ -8,6 +8,7 @@ Widget posterImage(
     MoviePosterCrawler crawler,
     BoxOffice? movies,
     double width,
+    double gradient
     ) {
   final movieName = movies?.movieNm;
   return FutureBuilder<String>(
@@ -38,7 +39,7 @@ Widget posterImage(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Colors.black.withOpacity(0.9),
+                      Colors.black.withOpacity(gradient),
                       Colors.transparent,
                     ],
                   ),

@@ -81,7 +81,7 @@ class MovieScreen extends HookConsumerWidget {
           final movies = snapshot.data ?? [];
           return Column(
             children: [
-              posterImage(crawler, movies[0],double.infinity),
+              posterImage(crawler, movies[0],double.infinity,1),
               const SizedBox(height: 20),
               MovieListContainerWidget(
                 movieList: movies,
