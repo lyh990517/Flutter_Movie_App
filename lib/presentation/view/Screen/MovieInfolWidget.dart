@@ -18,6 +18,8 @@ class MovieInfoScreen extends HookConsumerWidget {
         ),
       ]),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.red),
+        backgroundColor: Colors.black,
         title: Text(viewModel.selectedMovie?.movieNm ?? ""),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),

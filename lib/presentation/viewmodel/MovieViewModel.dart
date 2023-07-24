@@ -30,6 +30,11 @@ class MovieViewModel extends ChangeNotifier {
     print(index);
   }
 
+  void selectMyMovie(int index) async {
+    _selectedMovie = _myMovie?[index];
+    print(index);
+  }
+
   Future<List<BoxOffice>?> getMovieList(String targetDt, String itemPerPage) async {
     try {
       BoxOfficeResponse fetchedPosts =

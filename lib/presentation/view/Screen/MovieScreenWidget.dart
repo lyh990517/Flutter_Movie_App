@@ -61,7 +61,7 @@ class MovieScreen extends HookConsumerWidget {
                 movieList: viewModel.myMovie,
                 itemCount: viewModel.myMovie?.length ?? 0,
                 title: "내가 찜한 영화",
-                selectMovie: (index) => viewModel.selectMovie(index),
+                selectMovie: (index) => viewModel.selectMyMovie(index),
                 onClick: () {
                   Navigator.push(
                     context,
